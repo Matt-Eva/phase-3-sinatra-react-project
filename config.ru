@@ -15,3 +15,7 @@ use Rack::JSONBodyParser
 run ApplicationController
 use UsersController
 use CreationsController
+use TagsController
+use LikesController
+use LibItemsController
+use FlagsController

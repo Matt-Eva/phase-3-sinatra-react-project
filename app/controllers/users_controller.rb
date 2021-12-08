@@ -21,5 +21,11 @@ class UsersController < ApplicationController
           "Username already exists. Please create a unique username.".to_json
         end
       end
+
+      delete "/users/:id" do
+        user = User.find(params[:id])
+        user.destroy
+        {message: "Your account has been removed."}.to_json
+      end
     
 end

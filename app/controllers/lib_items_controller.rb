@@ -1,0 +1,2 @@
+class LibItemsController < ApplicationController
+end
