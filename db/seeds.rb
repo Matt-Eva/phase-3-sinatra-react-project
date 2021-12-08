@@ -8,8 +8,8 @@ puts "🌱 Seeding spices..."
     User.create({username: Faker::Name.first_name, password: Faker::Name.last_name})
 end
 
-Creation.create({title: "A Blue Monday", content:"The hollow bag \nDrifted silently\nAmongst crumbling chimneys\nOn a blue monday", length: 1, category: "poetry", user_id:User.all.sample.id})
-Creation.create({title: "Restful Hollow", content:"I sit beneath a wide canopy of leaves \nfluttering green and white against the soft, blue sky. \nIn this restful hollow, I find the peaceful part of myself \n and quietly sit with it.", length: 1, category: "poetry", user_id:User.all.sample.id})
+Creation.create({title: "A Blue Monday", content:"The hollow bag \nDrifted silently \nAmongst crumbling chimneys \nOn a blue monday", length: 1, category: "poetry", user_id:User.all.sample.id})
+Creation.create({title: "Restful Hollow", content:"I sit beneath a wide canopy of leaves \nfluttering green and white against the soft, blue sky. \nIn this restful hollow, I find the peaceful part of myself {\n}and quietly sit with it.", length: 1, category: "poetry", user_id:User.all.sample.id})
 Creation.create({title: "The Shortest Essay", content:"My opinion is important, and everybody should listen to what I have to say.", length: 1, category: "nonfiction", user_id:User.all.sample.id})
 Creation.create({title: "Flash Fiction", content:"There was once a piece of flash fiction that wasn't contrived.", length: 1, category: "fiction", user_id:User.all.sample.id})
 Creation.create({title: "Journalistic Integrity", content:"Can we guarantee that this platform supports genuine journalism? What would that even mean?", length: 1, category: "journalism", user_id:User.all.sample.id})
