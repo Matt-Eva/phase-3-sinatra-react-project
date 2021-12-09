@@ -29,9 +29,51 @@ class CreationsController < ApplicationController
         user = User.find(params[:id])
         creations = user.creations
         if creations == nil
-            {message: "You haven't created anything yet"}
+            {message: "You haven't created anything yet."}.to_json
         else
             creations.to_json(include: {user: {only: [:username, :id]}})
+        end
+    end
+
+    get "/search/:search" do
+        creations = Creation.where(title: params[:search])
+        if creations.length == 0
+            {message: "Sorry! We couldn't find any writing that matched that search."}.to_json
+        else
+            creations.to_json(include: {user: {only: [:username, :id]}})
+        end
+    end
+
+    get "/tag/:tag" do
+        tag = Tag.find_by(tag: params[:tag])
+        if tag == nil
+            {message: "Sorry! That search didn't produce any results."}.to_json
+        else
+            creations = tag.creations.sort_by{|c| -(c.ranking)}.slice(0, 81)
+            creations.to_json(include: {user: {only: [:username, :id]}})
+        end
+    end
+
+    post "/creations/search" do
+        creations = Creation.where(category: params[:category], title: params[:title])
+        if creations.length == 0
+            {message: "Sorry! We couldn't find any writing that matched that search."}.to_json
+        else
+            creations.to_json(include: {user: {only: [:username, :id]}})
+        end
+    end
+
+    post "/creations/tag" do
+        tag = Tag.find_by(tag: params[:tag])
+        if tag == nil
+            
+        else
+            creations = tag.creations.where(category: params[:category]).sort_by{|c| -(c.ranking)}.slice(0, 81)
+            if creations.length == 0
+                {message: "Sorry! That search didn't produce any results."}.to_json
+            else
+                creations.to_json(include: {user: {only: [:username, :id]}})
+            end
         end
     end
 
