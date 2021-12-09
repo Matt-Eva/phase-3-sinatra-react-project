@@ -2,7 +2,7 @@ class CreationsController < ApplicationController
 
     get "/" do
         creations = Creation.order_all
-        creations.to_json(include: {user: {only: [:username, :id]}})
+        creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
     end
 
     get "/fiction" do
