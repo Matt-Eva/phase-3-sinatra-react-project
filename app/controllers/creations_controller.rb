@@ -7,22 +7,22 @@ class CreationsController < ApplicationController
 
     get "/fiction" do
         creations = Creation.where(category: "fiction")
-        creations.to_json(include: {user: {only: [:username, :id]}})
+        creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
     end
 
     get "/journalism" do
         creations = Creation.where(category: "journalism").sort_by{|a| -(a.ranking)}
-        creations.to_json(include: {user: {only: [:username, :id]}})
+        creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
     end
 
     get "/nonfiction" do
         creations = Creation.where(category: "nonfiction").sort_by{|a| -(a.ranking)}
-        creations.to_json(include: {user: {only: [:username, :id]}})
+        creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
     end
 
     get "/poetry" do
         creations = Creation.where(category: "poetry").sort_by{|a| -(a.ranking)}
-        creations.to_json(include: {user: {only: [:username, :id]}})
+        creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
     end
 
     get "/my_creations/:id" do
@@ -31,7 +31,7 @@ class CreationsController < ApplicationController
         if creations == nil
             {message: "You haven't created anything yet."}.to_json
         else
-            creations.to_json(include: {user: {only: [:username, :id]}})
+            creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
         end
     end
 
@@ -40,7 +40,7 @@ class CreationsController < ApplicationController
         if creations.length == 0
             {message: "Sorry! We couldn't find any writing that matched that search."}.to_json
         else
-            creations.to_json(include: {user: {only: [:username, :id]}})
+            creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
         end
     end
 
@@ -50,7 +50,7 @@ class CreationsController < ApplicationController
             {message: "Sorry! That search didn't produce any results."}.to_json
         else
             creations = tag.creations.sort_by{|c| -(c.ranking)}.slice(0, 81)
-            creations.to_json(include: {user: {only: [:username, :id]}})
+            creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
         end
     end
 
@@ -59,20 +59,20 @@ class CreationsController < ApplicationController
         if creations.length == 0
             {message: "Sorry! We couldn't find any writing that matched that search."}.to_json
         else
-            creations.to_json(include: {user: {only: [:username, :id]}})
+            creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
         end
     end
 
     post "/creations/tag" do
         tag = Tag.find_by(tag: params[:tag])
         if tag == nil
-            
+            {message: "Sorry! That search didn't produce any results."}.to_json
         else
             creations = tag.creations.where(category: params[:category]).sort_by{|c| -(c.ranking)}.slice(0, 81)
             if creations.length == 0
                 {message: "Sorry! That search didn't produce any results."}.to_json
             else
-                creations.to_json(include: {user: {only: [:username, :id]}})
+                creations.to_json(include: [tags: {only: [:tag]}, user: {only: [:username, :id]}])
             end
         end
     end
@@ -87,5 +87,17 @@ class CreationsController < ApplicationController
         })
         creation.to_json(only: [:id])
     end 
+
+    patch "/creations/:id" do
+        creation = Creation.find(params[:id])
+        creation.update(
+            title: params[:title],
+            content: params[:content],
+            length: params[:length],
+            category: params[:category],
+            user_id: params[:user_id]
+        )
+        creation.to_json
+    end
 
 end
