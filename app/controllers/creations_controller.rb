@@ -25,7 +25,7 @@ class CreationsController < ApplicationController
         creations.to_json(include: {user: {only: [:username, :id]}})
     end
 
-    post "/my_creations" do
+    get "/my_creations/:id" do
         user = User.find(params[:id])
         creations = user.creations
         if creations == nil

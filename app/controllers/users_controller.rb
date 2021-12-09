@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
-    get "/users" do
+      get "/users" do
         User.all.to_json
+      end
+
+      get "/users/:id" do
+        user = User.find(params[:id])
+        user.to_json(only: [:id], include: [:likes, :flags, :lib_items])
       end
     
       post "/current_users" do
