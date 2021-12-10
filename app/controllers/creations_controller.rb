@@ -50,7 +50,11 @@ class CreationsController < ApplicationController
             {message: "Sorry! That search didn't produce any results."}.to_json
         else
             creations = tag.creations.sort_by{|c| -(c.ranking)}.slice(0, 81)
-            creations.to_json(include: [:taglinks, :tags, user: {only: [:username, :id]}])
+            if creations.length == 0
+                {message: "Sorry! That search didn't produce any results."}.to_json
+            else
+                creations.to_json(include: [:taglinks, :tags, user: {only: [:username, :id]}])
+            end
         end
     end
 
