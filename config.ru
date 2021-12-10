@@ -20,3 +20,4 @@ use LikesController
 use LibItemsController
 use FlagsController
 use DonationsController
+use TaglinksController
