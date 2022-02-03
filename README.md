@@ -39,6 +39,6 @@ User Library View:
 
 ## Created By
 
-Matt Eva:
+Matt Eva
 - GitHub: https://github.com/Matt-Eva
 - LinkedIn: https://www.linkedin.com/in/mattheweva/
